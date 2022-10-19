@@ -16,14 +16,14 @@ class TombStone(object):
             downlink_com            (   port   )                    Thread : Down data tranmissions from drone  ( ok + responses )
             downlink_telemetry      (   port   )                    Thread : Telemetry data from Drone
             uplink                  (   DATA   ,   Bool  )          Up data to the drone ( bool = ping hold ) 
-            connection_             (   N/A    )                    Connection state machine - 120 FPS ( called in FC ) 
+            connection_             (   N/A    )                    Connection state machine - ( limit speed )
             telem_buffer            (   N/A    )                    Buffers telemetry data from the socket ( empty if not receiving ) 
 
 
     Utility ( front side ): 
 
-            disconnect              (     N/A     )                    Disconnect toggle 
-            get_telem               (  search id  )                    get a telemtry state from the buffer 
+            disconnect              (     N/A     )                 Disconnect toggle 
+            get_telem               (  search id  )                 Get a telemtry state from the buffer 
 
     // ----------------------------------------------------------------------------------------------------------------------------
     Writen  By:                                     Steven Andrews II
@@ -42,8 +42,7 @@ class TombStone(object):
                 k_          =   i.split(":")
                 key_        =   k_[0]
                 if key_ == _ :       
-                    #print(key_, k_[1])
-                    self.TELEMETRY__[key_] = k_[1]   # live feed from drone 
+                    self.TELEMETRY__[key_] = k_[1]   
             
 
 
@@ -51,7 +50,7 @@ class TombStone(object):
     def get_telem(self,search):  
          for k,v in self.TELEMETRY__.items():
              if k == search:
-                 return v                           # returns the value if it exists in buffer
+                 return v                           
          return False           
         
    
@@ -62,7 +61,6 @@ class TombStone(object):
             if self_.connection_data["connection_toggle"] == True and self_.downlink_hold == False:
                 try: 
                         DATA    ,  ADDRESS      = self_.client_socket.recvfrom(   port   ) 
-                        #print("command thread:",DATA, "packet address: ",ADDRESS) 
                         self_.incoming          = True
                 except socket.error as error_ :
                     print("Error: in downlink_com")                                        
@@ -87,7 +85,6 @@ class TombStone(object):
 
     '''Socket:      Outgoing packet handler    '''
     def uplink(self,DATA,*arg):
-        # communication state machine ping skip 
         if  self.connection_data["connection_toggle"] == True:
             self.hold             = False or bool(  arg  )   #  ping command hold 
             try:
@@ -103,7 +100,7 @@ class TombStone(object):
         if  self.connection_data["connection_toggle"]           == False:
             self.connection_data["connection_toggle"]           = True
             self.connection_data["connection_state"]            = False
-            socket.socket .close(self.client_socket )                     # clear socket objects 
+            socket.socket .close(self.client_socket )                    
             socket.socket .close(self.client_state_socket )
             return  True
         else:
@@ -120,14 +117,12 @@ class TombStone(object):
            if self.connection_data["connection_state"] == True and self.connection_data["conCheck_index"] > self.connection_data["conCheck_Mindex"]:
               self.connection_data["conCheck_index"]                        = 0
               self.connection_data["connection_state"]                      = False
-              print("Drone connection has been severed...")
            
            #     AUto bind to local host 
            if self.connection_data["connection_state"] == False and self.connection_data["conCheck_index"] > self.connection_data["conCheck_Mindex"]:
               self.downlink_hold                                            = True
               socket.socket .close(self.client_socket )                     # clear socket objects 
               socket.socket .close(self.client_state_socket )
-              print("Grabbing local host ip:",self.host_name,self.local_ip)
               self.host_name              = socket. gethostname()                                                          
               self.local_ip               = socket. gethostbyname( self.host_name )
               self.CMDsoc                 = socket. socket(  socket.AF_INET , socket.SOCK_DGRAM  )                         
