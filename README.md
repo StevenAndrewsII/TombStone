@@ -10,7 +10,7 @@ The library is designed to be easy to use and fatures:
     >      Connection loss auto handling ( socket handling )
     >      Dissconect 
     >      Dedicated RC command streaming 
-    >      Telemetry downlink 
+    >      realtime uplink
     >      Telemetry state parsing 
     >      Realtime accessable telemetry downlink 
 
