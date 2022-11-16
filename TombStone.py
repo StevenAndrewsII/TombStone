@@ -200,7 +200,7 @@ class TombStone(object):
         
         #   Connection Link State Data
         self.connection_data = {
-            "connection_state"      : False,            # state of connection ckeck 
+            "connection_state"      : False,            # state of connection ckeck  ( the actual state of connection: client side connection momitoring )
             "connection_sub_state"  : False,            # state of connection ckeck ( spam reduction )
             "ping_clk"              : 0,                # internal clock
             "ping_MClk"             : 4*60,             # frame time ( *60 ~ convert to seconds )
