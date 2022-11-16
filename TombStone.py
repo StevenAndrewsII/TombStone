@@ -17,6 +17,7 @@ class TombStone(object):
             downlink_telemetry      (   port   )                    Thread : Telemetry data from Drone
             uplink                  (   DATA   ,   Bool  )          Up data to the drone ( bool = ping hold )***  [[ when streaming data to the drone from ground station, 
                                                                                                                   ping must be held to switch modes for connection sustainment ]] 
+                                                                                                                  * otherwise, ping will take priority over data stream *
             connection_             (   N/A    )                    Connection state machine - ( limit speed externally )
             telem_buffer            (   N/A    )                    Buffers telemetry data from the socket - ( limit speed externally ) 
 
