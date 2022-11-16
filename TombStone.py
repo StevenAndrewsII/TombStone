@@ -15,13 +15,17 @@ class TombStone(object):
 
             downlink_com            (   port   )                    Thread : Down data tranmissions from drone  ( ok + responses )
             downlink_telemetry      (   port   )                    Thread : Telemetry data from Drone
-            uplink                  (   DATA   ,   Bool  )          Up data to the drone ( bool = ping hold * usually you want this held while sending/streaming data *) 
+            uplink                  (   DATA   ,   Bool  )          Up data to the drone ( bool = ping hold )***  [[ when streaming data to the drone from ground station, 
+                                                                                                                  ping must be held to switch modes for connection sustainment ]] 
             connection_             (   N/A    )                    Connection state machine - ( limit speed )
             telem_buffer            (   N/A    )                    Buffers telemetry data from the socket ( empty if not receiving ) 
 
 
     Utility ( front side ): 
-
+    
+            uplink                  (   DATA   ,   Bool  )          Up data to the drone ( bool = ping hold * usually you want this held while sending/streaming data *)
+                                                                    Data = "commands" ( see tello drone proticol documentation from DJI )
+                                                                    
             disconnect              (     N/A     )                 Disconnect toggle 
             connect                 (     N/A     )                 Connect toggle ( default at runtime is on )
             get_telem               (  search id  )                 Get a telemtry state from the buffer 
