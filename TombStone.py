@@ -40,7 +40,7 @@ class TombStone(object):
 
 
 
-    '''Buffer:     Telemetry parsing buffer     '''
+    '''Buffer:     Telemetry parsing buffer  : TELEMETRY__ -> defaults to empty if not reciving   '''
     def telem_buffer(self):
         self.TELEMETRY__    =   {} 
         for _ in  self.telemetry_keys:
