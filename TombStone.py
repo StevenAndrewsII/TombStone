@@ -11,7 +11,7 @@ class TombStone(object):
     This module is created as an alternative communications layer for the DJI Tello drone   ( demo: alpha ) 
 
     -------------------------------------------------------------------------------------------------------------------------------
-    BaceEnd:
+    BackEnd:
 
             downlink_com            (   port   )                    Thread : Down data tranmissions from drone  ( ok + responses )
             downlink_telemetry      (   port   )                    Thread : Telemetry data from Drone
